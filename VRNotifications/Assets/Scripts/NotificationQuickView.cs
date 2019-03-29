@@ -9,6 +9,8 @@ public class NotificationQuickView : MonoBehaviour
     public SteamVR_Input_Sources handType;
     public bool handInNotification;
     public NotificationDashboard script;
+    public GameObject messageBubble;
+    public string noticeName;
 
     // Start is called before the first frame update
     void Start()
@@ -23,8 +25,19 @@ public class NotificationQuickView : MonoBehaviour
         {
             if (handInNotification)
             {
+                noticeName = gameObject.name;
+                messageBubble.SetActive(true);
+            } 
+        }
+
+        if (grabPinchAction.GetStateUp(handType))
+        {
+            if (messageBubble.activeSelf)
+            {
+                messageBubble.SetActive(false);
                 NotificationDashboard script = GameObject.Find("NotificationOverview").GetComponent<NotificationDashboard>();
                 script.CreateDetailedNotification(gameObject.name);
+                Debug.Log("Creating Detailed Notification...");
             }
         }
     }

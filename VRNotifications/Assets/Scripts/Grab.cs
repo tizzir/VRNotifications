@@ -107,6 +107,20 @@ public class Grab : MonoBehaviour
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
 
+            Debug.Log("Velocity: " + controllerPose.GetVelocity());
+            Debug.Log("AngularVelocity: "+ controllerPose.GetAngularVelocity());
+            if ((controllerPose.GetVelocity().x < -0.2 || controllerPose.GetVelocity().x > 0.2 || controllerPose.GetVelocity().y < -0.2 || controllerPose.GetVelocity().y > 0.2 || controllerPose.GetVelocity().z < -0.2 || controllerPose.GetVelocity().z > 0.2) && (controllerPose.GetAngularVelocity().x < -0.2 || controllerPose.GetAngularVelocity().x > 0.2 || controllerPose.GetAngularVelocity().y < -0.2 || controllerPose.GetAngularVelocity().y > 0.2 || controllerPose.GetAngularVelocity().z < -0.2 || controllerPose.GetAngularVelocity().z > 0.2))
+            {
+                objectInHand.GetComponent<Rigidbody>().mass = 1;
+                objectInHand.GetComponent<Rigidbody>().drag= 0;
+                objectInHand.GetComponent<Rigidbody>().angularDrag = 0.05f;
+                Destroy(objectInHand, 2.0f);
+                if (Reply.isKeyboardActive)
+                {
+                    Reply.isKeyboardActive = false;
+                }
+            } 
+
             // Add velocity and angle when releasing
             objectInHand.GetComponent<Rigidbody>().velocity = controllerPose.GetVelocity();
             objectInHand.GetComponent<Rigidbody>().angularVelocity = controllerPose.GetAngularVelocity();

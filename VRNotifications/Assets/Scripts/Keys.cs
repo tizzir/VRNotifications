@@ -5,9 +5,6 @@ using UnityEngine.UI;
 
 public class Keys : MonoBehaviour
 {
-    public bool startTimer;             // Timer used to not accidently repeat letters when in trigger unless intended
-    public int timer; 
-
     public string key;
 
     public Material standardColor;
@@ -15,17 +12,21 @@ public class Keys : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (!startTimer)
+        if (collider.gameObject.name == "Pointer")
         {
             // Update text
-            gameObject.transform.parent.Find("CreatedText").GetComponent<TextMesh>().text += key;
+            gameObject.transform.parent.Find("InsertText").transform.Find("CreatedText").GetComponent<TextMesh>().text += key;
 
             // Change color of button to indicate pressed
             gameObject.GetComponent<MeshRenderer>().material = pressedColor;
-
-            // Start the timer
-            startTimer = true;
+         
         }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        // Change color back
+        gameObject.GetComponent<MeshRenderer>().material = standardColor;
     }
 
 
@@ -38,20 +39,6 @@ public class Keys : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (startTimer)
-        {
-            timer += 1;
-            if (timer > 60)
-            {
-                startTimer = false;
-            }
-        } else
-        {
-            // Change color back
-            gameObject.GetComponent<MeshRenderer>().material = standardColor;
 
-            // Reset timer
-            timer = 0;
-        }
     }
 }
