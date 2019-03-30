@@ -76,7 +76,7 @@ public class Shift : MonoBehaviour
         if (useBuffer)
         {
             timer += 1;
-            if (timer > 30)
+            if (timer > 15)
             {
                 timer = 0;
                 useBuffer = false;

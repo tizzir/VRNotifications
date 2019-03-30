@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Send : MonoBehaviour
 {
@@ -9,19 +10,28 @@ public class Send : MonoBehaviour
 
     public Material standardColor;
     public Material pressedColor;
+    
+    public GameObject replyButton; 
 
     public static bool useBuffer = false;
     public static int timer = 0;
 
     // User hit send
-    void OnTriggerEnter()
+    void OnTriggerEnter(Collider collider)
     {
-        if (!useBuffer)
+        if (!useBuffer && collider.gameObject.name == "Pointer")
         {
-            gameObject.GetComponent<MeshRenderer>().material = pressedColor;
-            userMessage.transform.Find("userMessage").GetComponent<TextMesh>().text = gameObject.transform.parent.Find("InsertText").transform.Find("CreatedText").GetComponent<TextMesh>().text;
-            gameObject.transform.parent.Find("InsertText").transform.Find("CreatedText").GetComponent<TextMesh>().text = "";
-            useBuffer = true;
+            try {
+                Reply.isKeyboardActive = false;            
+                replyButton.SetActive(true);
+                gameObject.GetComponent<MeshRenderer>().material = pressedColor;
+                userMessage.transform.Find("userMessage").GetComponent<TextMesh>().text = gameObject.transform.parent.Find("InsertText").transform.Find("CreatedText").GetComponent<TextMesh>().text;
+                gameObject.transform.parent.Find("InsertText").transform.Find("CreatedText").GetComponent<TextMesh>().text = "";
+                useBuffer = true;
+            } catch (Exception e) {
+                Debug.Log("Exception: "+e);
+            }   
+            Destroy(gameObject.transform.parent.gameObject);        
         }
     }
 
@@ -33,6 +43,11 @@ public class Send : MonoBehaviour
     public void setUserMessage(GameObject messageObject)
     {
         userMessage = messageObject;
+    }
+    
+    public void setReplyButton(GameObject button) {
+        replyButton = button;
+        replyButton.SetActive(false);
     }
 
     // Start is called before the first frame update

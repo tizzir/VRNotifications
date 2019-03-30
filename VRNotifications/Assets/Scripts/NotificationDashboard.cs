@@ -24,6 +24,8 @@ public class NotificationDashboard : MonoBehaviour
     public GameObject notice2;
     public GameObject noNotificationNotice;
     public GameObject rightHand;
+    public GameObject leftHand;
+    public GameObject hmd;
      
     public const int NumberOfNoticesShown = 3;
     public const int MaxCharacters = 50;
@@ -117,7 +119,11 @@ public class NotificationDashboard : MonoBehaviour
     void GenerateNoticeObject(Notification notification)
     {
         GameObject notice = Instantiate(notificationPrefab, gameObject.transform.position, Quaternion.identity);
+        notice.transform.Find("NotificationView").transform.Find("Reply").GetComponent<Reply>().setLeftHand(leftHand);
+        notice.transform.Find("NotificationView").transform.Find("Reply").GetComponent<Reply>().setHMD(hmd);
         notice.transform.position = rightHand.transform.position;
+        notice.transform.LookAt(hmd.transform);
+        notice.transform.Rotate(0,-90,-20,Space.Self);
         notice.transform.Find("NotificationView").transform.Find("NameLength").transform.Find("name").GetComponent<TextMesh>().text = notification.name;
         notice.transform.Find("NotificationView").transform.Find("NoticeMessageLength").transform.Find("noticeMessage").GetComponent<TextMesh>().text = notification.noticeMessage;
         

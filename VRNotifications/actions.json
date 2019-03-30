@@ -41,7 +41,7 @@
       "requirement": "optional"
     },
     {
-      "name": "/actions/default/out/Haptic",
+      "name": "/actions/default/out/haptic",
       "type": "vibration"
     },
     {

@@ -13,119 +13,118 @@
 using UnityEngine;
 using Valve.VR;
 
-public class Grab : MonoBehaviour
+namespace Valve.VR.InteractionSystem
 {
-    public SteamVR_Input_Sources handType;
-    public SteamVR_Behaviour_Pose controllerPose;
-    public SteamVR_Action_Boolean grabAction;
-
-    private GameObject collidingObject;
-    private GameObject objectInHand;
-
-    // Set up as potential grab target
-    public void OnTriggerEnter(Collider other)
+    public class Grab : MonoBehaviour
     {
-        SetCollidingObject(other);
-    }
+        public SteamVR_Input_Sources handType;
+        public SteamVR_Behaviour_Pose controllerPose;
+        public SteamVR_Action_Boolean grabAction;
+        
+        private GameObject collidingObject;
+        private GameObject objectInHand;
 
-    // Set up as potential grab target
-    public void OnTriggerStay(Collider other)
-    {
-        SetCollidingObject(other);
-    }
-
-    // Controller out of object - Remove reference
-    public void OnTriggerExit(Collider other)
-    {
-        if (!collidingObject)
+        // Set up as potential grab target
+        public void OnTriggerEnter(Collider other)
         {
-            return;
+            SetCollidingObject(other);
         }
 
-        collidingObject = null;
-    }
-
-    private void SetCollidingObject(Collider col)
-    {
-        // If already holding something, cannot hold something else
-        if (collidingObject || !col.GetComponent<Rigidbody>())
+        // Set up as potential grab target
+        public void OnTriggerStay(Collider other)
         {
-            return;
+            SetCollidingObject(other);
         }
 
-        // Assign object as potential grab target
-        collidingObject = col.gameObject;
-    }
-
-    void Update()
-    {
-        if (grabAction.GetLastStateDown(handType))
+        // Controller out of object - Remove reference
+        public void OnTriggerExit(Collider other)
         {
-            if (collidingObject)
+            if (!collidingObject)
             {
-                GrabObject();
+                return;
             }
+
+            collidingObject = null;
         }
 
-        if (grabAction.GetLastStateUp(handType))
+        private void SetCollidingObject(Collider col)
         {
-            if (objectInHand)
+            // If already holding something, cannot hold something else
+            if (collidingObject || !col.GetComponent<Rigidbody>())
             {
-                ReleaseObject();
+                return;
             }
+
+            // Assign object as potential grab target
+            collidingObject = col.gameObject;
         }
-    }
 
-    // Grabbing an object
-    private void GrabObject()
-    {
-        // Put object into hand
-        objectInHand = collidingObject;
-        collidingObject = null;
-
-        // Add joint to it so it won't disconnect from hand
-        var joint = AddFixedJoint();
-        joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
-    }
-
-    // Add fixed joint so it doesn't break easily, return object
-    private FixedJoint AddFixedJoint()
-    {
-        FixedJoint fx = gameObject.AddComponent<FixedJoint>();
-        fx.breakForce = 20000;
-        fx.breakTorque = 20000;
-        return fx;
-    }
-
-    // Release object
-    private void ReleaseObject()
-    {
-        // Make sure fixed joint is attached
-        if (GetComponent<FixedJoint>())
+        void Update()
         {
-            // Remove connection / joint
-            GetComponent<FixedJoint>().connectedBody = null;
-            Destroy(GetComponent<FixedJoint>());
-
-            Debug.Log("Velocity: " + controllerPose.GetVelocity());
-            Debug.Log("AngularVelocity: "+ controllerPose.GetAngularVelocity());
-            if ((controllerPose.GetVelocity().x < -0.2 || controllerPose.GetVelocity().x > 0.2 || controllerPose.GetVelocity().y < -0.2 || controllerPose.GetVelocity().y > 0.2 || controllerPose.GetVelocity().z < -0.2 || controllerPose.GetVelocity().z > 0.2) && (controllerPose.GetAngularVelocity().x < -0.2 || controllerPose.GetAngularVelocity().x > 0.2 || controllerPose.GetAngularVelocity().y < -0.2 || controllerPose.GetAngularVelocity().y > 0.2 || controllerPose.GetAngularVelocity().z < -0.2 || controllerPose.GetAngularVelocity().z > 0.2))
+            if (grabAction.GetLastStateDown(handType))
             {
-                objectInHand.GetComponent<Rigidbody>().mass = 1;
-                objectInHand.GetComponent<Rigidbody>().drag= 0;
-                objectInHand.GetComponent<Rigidbody>().angularDrag = 0.05f;
-                Destroy(objectInHand, 2.0f);
-                if (Reply.isKeyboardActive)
+                if (collidingObject)
                 {
-                    Reply.isKeyboardActive = false;
+                    GrabObject();
                 }
-            } 
+            }
 
-            // Add velocity and angle when releasing
-            objectInHand.GetComponent<Rigidbody>().velocity = controllerPose.GetVelocity();
-            objectInHand.GetComponent<Rigidbody>().angularVelocity = controllerPose.GetAngularVelocity();
+            if (grabAction.GetLastStateUp(handType))
+            {
+                if (objectInHand)
+                {
+                    ReleaseObject();
+                }
+            }
         }
 
-        objectInHand = null;
+        // Grabbing an object
+        private void GrabObject()
+        {
+            // Put object into hand
+            objectInHand = collidingObject;
+            collidingObject = null;
+
+            // Add joint to it so it won't disconnect from hand
+            var joint = AddFixedJoint();
+            joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
+        }
+
+        // Add fixed joint so it doesn't break easily, return object
+        private FixedJoint AddFixedJoint()
+        {
+            FixedJoint fx = gameObject.AddComponent<FixedJoint>();
+            fx.breakForce = 20000;
+            fx.breakTorque = 20000;
+            return fx;
+        }
+
+        // Release object
+        private void ReleaseObject()
+        {
+            // Make sure fixed joint is attached
+            if (GetComponent<FixedJoint>())
+            {
+                // Remove connection / joint
+                GetComponent<FixedJoint>().connectedBody = null;
+                Destroy(GetComponent<FixedJoint>());
+
+                Debug.Log("Velocity: " + controllerPose.GetVelocity());
+                Debug.Log("AngularVelocity: "+ controllerPose.GetAngularVelocity());
+                if ((controllerPose.GetVelocity().x < -0.4 || controllerPose.GetVelocity().x > 0.4 || controllerPose.GetVelocity().y < -0.4 || controllerPose.GetVelocity().y > 0.4 || controllerPose.GetVelocity().z < -0.4 || controllerPose.GetVelocity().z > 0.4) && (controllerPose.GetAngularVelocity().x < -0.4 || controllerPose.GetAngularVelocity().x > 0.4 || controllerPose.GetAngularVelocity().y < -0.4 || controllerPose.GetAngularVelocity().y > 0.4 || controllerPose.GetAngularVelocity().z < -0.4 || controllerPose.GetAngularVelocity().z > 0.4) && objectInHand.tag == "notificationDetailed")
+                {
+                    objectInHand.GetComponent<Rigidbody>().mass = 1;
+                    objectInHand.GetComponent<Rigidbody>().drag= 0;
+                    objectInHand.GetComponent<Rigidbody>().angularDrag = 0.05f;
+                    Destroy(objectInHand, 2.0f);
+                } 
+
+                // Add velocity and angle when releasing
+                objectInHand.GetComponent<Rigidbody>().velocity = controllerPose.GetVelocity();
+                objectInHand.GetComponent<Rigidbody>().angularVelocity = controllerPose.GetAngularVelocity();
+            }
+
+            objectInHand = null;
+        }
     }
 }

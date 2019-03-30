@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.vrnotification.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "C:\\Users\\hongk\\Documents\\COMP4020Project\\VRNotifications-master\\VRNotifications-master\\VRNotifications\\actions.json",
+      "action_manifest_path": "/home/spellcheck/Documents/University/COMP4020/VRNotifications/VRNotifications/actions.json",
       "strings": {
         "en_us": {
           "name": "VRNotification [Testing]"
