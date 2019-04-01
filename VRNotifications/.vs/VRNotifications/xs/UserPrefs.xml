@@ -1,0 +1,37 @@
+﻿<Properties StartupConfiguration="{E1108C40-016E-0AD8-2E1E-597719D2E6AC}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Reply.cs">
+    <Files>
+      <File FileName="Assets/Scripts/ShowNotice.cs" Line="30" Column="1" />
+      <File FileName="Assets/Scripts/NotificationDashboard.cs" Line="63" Column="17" />
+      <File FileName="Assets/Scripts/MoveNotification.cs" Line="24" Column="30" />
+      <File FileName="Assets/Scripts/Reply.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="VRNotifications" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="Reply.cs" selected="True" />
+              </Node>
+              <Node name="SteamVR" expanded="True" />
+              <Node name="SteamVR_Input" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="VRNotifications" expanded="True" selected="True" />
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="Unity.Editor" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
