@@ -36,12 +36,12 @@ public class NotificationDashboard : MonoBehaviour
         notificationList = new List<Notification>();
         noNotifications = true;
 
-        Notification newNotice = new Notification();
-        newNotice.canReply = false;
-        newNotice.name = "Instagram";
-        newNotice.noticeMessage = "Matt liked your photo.";
+        //Notification newNotice = new Notification();
+        //newNotice.canReply = false;
+        //newNotice.name = "Instagram";
+        //newNotice.noticeMessage = "Matt liked your photo.";
 
-        AddSpecifiedElement(newNotice);
+        //AddSpecifiedElement(newNotice);
     }
 
     // Update is called once per frame
