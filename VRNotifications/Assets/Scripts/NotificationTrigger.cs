@@ -24,7 +24,7 @@ namespace Valve.VR.InteractionSystem
         // Adds a new notification to the list depending on which key is pressed
         void TriggerNotification()
         {
-            Hand hand = gameObject.GetComponent<Hand>(); //NEED TO GET HAND FOR REAL
+            Hand hand = GameObject.Find("LeftHand").GetComponent<Hand>(); //NEED TO GET HAND FOR REAL
 
             // Instagram
             if (Input.GetKeyDown("i"))
