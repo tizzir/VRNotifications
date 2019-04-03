@@ -36,7 +36,7 @@ public class NotificationDashboard : MonoBehaviour
         notificationList = new List<Notification>();
         noNotifications = true;
 
-        Notification newNotice;
+        Notification newNotice = new Notification();
         newNotice.canReply = false;
         newNotice.name = "Instagram";
         newNotice.noticeMessage = "Matt liked your photo.";
@@ -47,8 +47,6 @@ public class NotificationDashboard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TriggerNotification();
-
         if (notificationList.Count > 0)
         {
             noNotificationNotice.SetActive(false);
@@ -135,88 +133,16 @@ public class NotificationDashboard : MonoBehaviour
         notice.transform.Find("NotificationView").transform.Find("NameLength").transform.Find("name").GetComponent<TextMesh>().text = notification.name;
         notice.transform.Find("NotificationView").transform.Find("NoticeMessageLength").transform.Find("noticeMessage").GetComponent<TextMesh>().text = notification.noticeMessage;
 
-
     }
 
-    // Adds a new notification to the list depending on which key is pressed
-    void TriggerNotification()
+    public void AddNotification(Boolean r, string n, string m)
     {
-        Hand hand = gameObject.GetComponent<Hand>();
+        Notification newNotif;
+        newNotif.canReply = r;
+        newNotif.name = n;
+        newNotif.noticeMessage = m;
 
-        // Instagram
-        if (Input.GetKeyDown("i"))
-        {
-            Notification newNotice;
-            newNotice.canReply = true;
-            newNotice.name = "Instagram";
-            newNotice.noticeMessage = "Kevin sent you a direct message.";
-
-            AddSpecifiedElement(newNotice);
-
-            if (hand != null)
-            {
-                hand.TriggerHapticPulse(0.5f, 20f, 1000f);
-            }
-        }
-        // Facebook
-        else if (Input.GetKeyDown("f"))
-        {
-            Notification newNotice;
-            newNotice.canReply = true;
-            newNotice.name = "Facebook";
-            newNotice.noticeMessage = "Wish Mary Jo a Happy Birthday!";
-
-            AddSpecifiedElement(newNotice);
-
-            if (hand != null)
-            {
-                hand.TriggerHapticPulse(0.5f, 20f, 1000f);
-            }
-        }
-        // LinkedIn
-        else if (Input.GetKeyDown("l"))
-        {
-            Notification newNotice;
-            newNotice.canReply = false;
-            newNotice.name = "LinkedIn";
-            newNotice.noticeMessage = "Mark Zukerberg wants to connect.";
-
-            AddSpecifiedElement(newNotice);
-
-            if (hand != null)
-            {
-                hand.TriggerHapticPulse(0.5f, 20f, 1000f);
-            }
-        }
-        // News
-        else if (Input.GetKeyDown("n"))
-        {
-            Notification newNotice;
-            newNotice.canReply = false;
-            newNotice.name = "News";
-            newNotice.noticeMessage = "Brexit is happening.";
-
-            AddSpecifiedElement(newNotice);
-
-            if (hand != null)
-            {
-                hand.TriggerHapticPulse(0.5f, 20f, 1000f);
-            }
-        }
-        // Text message
-        else if (Input.GetKeyDown("t"))
-        {
-            Notification newNotice;
-            newNotice.canReply = true;
-            newNotice.name = "Mom";
-            newNotice.noticeMessage = "You're the best!";
-
-            AddSpecifiedElement(newNotice);
-
-            if (hand != null)
-            {
-                hand.TriggerHapticPulse(0.5f, 20f, 1000f);
-            }
-        }
+        AddSpecifiedElement(newNotif);
     }
+
 }
